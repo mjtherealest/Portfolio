@@ -137,15 +137,15 @@
     }
 
     .img-circle {
-      width: 200px;
-      height: 200px;
+      width: 500px;
+      height: 500px;
       border-radius: 50%;
       flex: 0 0 auto;
     }
 
     .img-polygon {
-      flex: 0 0 300px;
-      height: 300px;
+      flex: 0 0 500px;
+      height: 500px;
       clip-path: polygon(50% 0%, 85% 10%, 100% 50%, 85% 90%, 50% 100%, 15% 90%, 0% 50%, 15% 10%);
     }
 
@@ -184,6 +184,35 @@
     .gallery img:hover {
       transform: scale(1.05);
     }
+
+    /* Lightbox styles */
+    #lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 12px;
+    }
+
+    #lightbox span {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 2.5rem;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -214,14 +243,14 @@
         <h2>Designer</h2>
         <p>Ik ben Joaquin Holthof, een 20-jarige student Grafische en Digitale Media aan AP Hogeschool. Als designer hou ik ervan om creatieve ideeën om te zetten in sterke visuele concepten. Met oog voor detail en stijl streef ik naar designs die zowel aantrekkelijk als functioneel zijn.</p>
       </div>
-      <div class="img-section img-circle" style="background-image: url('/images/logo.png');"></div>
+      <div class="img-section img-circle" style="background-image: url('/images/hoofdd.png');"></div>
     </div>
   </section>
 
   <!-- DEVELOPER SECTION -->
   <section id="developer">
     <div class="section-content">
-      <div class="img-section img-polygon" style="background-image: url('images/sectionfoto.png');"></div>
+      <div class="img-section img-polygon" style="background-image: url('images/developer.jpg');"></div>
       <div class="text">
         <h2>Developer</h2>
         <p>Naast mijn passie voor design, verdiep ik mij in webdevelopment. Ik ontwikkel gebruiksvriendelijke en performante websites waarin ik creativiteit en techniek combineer. Als student aan AP Hogeschool leer ik elke dag bij om mezelf te blijven verbeteren.</p>
@@ -233,11 +262,10 @@
   <section id="work">
     <div class="section-content" style="flex-direction: column; align-items: center; text-align: center;">
       <h2>Work</h2>
-      <p>Projecten komen hier...</p>
       <div class="gallery">
         <img src="/images/werk1.png" alt="Work 1" onclick="openImage(this.src)">
         <img src="/images/logo.png" alt="Work 2" onclick="openImage(this.src)">
-        <img src="https://source.unsplash.com/random/300x200?website" alt="Work 3" onclick="openImage(this.src)">
+        <img src="/images/packshot.jpg" alt="Work 3" onclick="openImage(this.src)">
       </div>
     </div>
   </section>
@@ -246,7 +274,6 @@
   <section id="contact">
     <div class="section-content" style="flex-direction: column; align-items: center; text-align: center;">
       <h2>Contact</h2>
-      <p style="margin-bottom: 30px;">Je kan me bereiken via onderstaande kanalen:</p>
       <div style="display: flex; flex-direction: column; gap: 15px; font-size: 1.2rem;">
         <a href="https://www.instagram.com/jhltf_03/" target="_blank" style="text-decoration: none; color: inherit;">
           📸 Instagram: @jhltf_03
@@ -261,18 +288,24 @@
     </div>
   </section>
 
-    <!-- FOOTER -->
-    <footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 30px 20px; margin-top: 40px;">
-        <p style="font-size: 1rem; margin-bottom: 10px;">&copy; 2025 Joaquin Holthof. Alle rechten voorbehouden.</p>
-        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 10px;">
-          <a href="https://www.linkedin.com/in/joaquinh" target="_blank" style="color: white; text-decoration: none;">LinkedIn</a>
-          <a href="mailto:joaquin@example.com" style="color: white; text-decoration: none;">E-mail</a>
-          <a href="#contact" style="color: white; text-decoration: none;">Contact</a>
-        </div>
-        <p style="font-size: 0.9rem; opacity: 0.6;">Gemaakt met passie en koffie</p>
-      </footer>
-    
+  <!-- FOOTER -->
+  <footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 30px 20px; margin-top: 40px;">
+    <p style="font-size: 1rem; margin-bottom: 10px;">&copy; 2025 Joaquin Holthof. Alle rechten voorbehouden.</p>
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 10px;">
+      <a href="https://www.linkedin.com/in/joaquinh" target="_blank" style="color: white; text-decoration: none;">LinkedIn</a>
+      <a href="mailto:joaquin@example.com" style="color: white; text-decoration: none;">E-mail</a>
+      <a href="#contact" style="color: white; text-decoration: none;">Contact</a>
+    </div>
+    <p style="font-size: 0.9rem; opacity: 0.6;">Gemaakt met passie en koffie</p>
+  </footer>
 
+  <!-- LIGHTBOX OVERLAY -->
+  <div id="lightbox">
+    <span onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" src="" alt="Vergrote afbeelding">
+  </div>
+
+  <!-- SCRIPT -->
   <script>
     function scrollToSection(id) {
       const section = document.getElementById(id);
@@ -282,9 +315,23 @@
     }
 
     function openImage(src) {
-      const win = window.open();
-      win.document.write('<img src="' + src + '" style="width:100%">');
+      const lightbox = document.getElementById("lightbox");
+      const img = document.getElementById("lightbox-img");
+      img.src = src;
+      lightbox.style.display = "flex";
     }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+
+    window.addEventListener("click", function (e) {
+      const lightbox = document.getElementById("lightbox");
+      const img = document.getElementById("lightbox-img");
+      if (e.target === lightbox && e.target !== img) {
+        closeLightbox();
+      }
+    });
   </script>
 </body>
 </html>
